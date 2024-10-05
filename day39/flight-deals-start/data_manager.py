@@ -7,7 +7,7 @@ import requests
 
 load_dotenv()
 
-SHEETY_ENDPOINT = "https://api.sheety.co/fc8228e0a21f5dca311c6d0e486ce39e/flightDeals/prices"
+SHEETY_ENDPOINT = "https://api.sheety.co/15576bf9b68c8fea61dff1cd6c9eedfb/flightDeals/prices"
 
 class DataManager:
     def __init__(self):

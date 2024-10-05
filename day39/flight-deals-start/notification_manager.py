@@ -9,9 +9,9 @@ class NotificationManager:
     def send_sms(self, message_body):
 
         message = self.client.messages.create(
-            from_=os.environ['TWILIO_VIRTUAL_NUMBER'],
+            from_="+1 717 276 0228",
             body=message_body,
-            to=os.environ['TWILIO_VIRTUAL_NUMBER']
+            to="+918767883223"
         )
         #Print if successfully sent.
         print(message.sid)

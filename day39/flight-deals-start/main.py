@@ -6,7 +6,6 @@ from flight_search import FlightSearch
 from flight_data import find_cheapest_flight
 from notification_manager import NotificationManager
 
-
 data_manager = DataManager()
 sheet_data = data_manager.get_destination_data()
 flight_search = FlightSearch()
@@ -29,7 +28,7 @@ data_manager.update_destination_codes()
 # ==================== Search for Flights ====================
 
 tomorrow = datetime.now() + timedelta(days=1)
-six_month_from_today = datetime.now() + timedelta(days=(6*30))
+six_month_from_today = datetime.now() + timedelta(days=(6 * 30))
 
 for destination in sheet_data:
     print(f"Getting flights for {destination['city']}...")
@@ -44,21 +43,17 @@ for destination in sheet_data:
     # Slowing down requests to avoid rate limit
     time.sleep(2)
 
-    try:
-        if cheapest_flight.price < destination["lowestPrice"]:
-            print(f"Lower price flight found to {destination['city']}!")
-            # notification_manager.send_sms(
-            #     message_body=f"Low price alert! Only £{cheapest_flight.price} to fly "
-            #                  f"from {cheapest_flight.origin_airport} to {cheapest_flight.destination_airport}, "
-            #                  f"on {cheapest_flight.out_date} until {cheapest_flight.return_date}."
-            # )
+    if cheapest_flight.price < destination["lowestPrice"]:
+        print(f"Lower price flight found to {destination['city']}!")
+        notification_manager.send_sms(
+            message_body=f"Low price alert! Only £{cheapest_flight.price} to fly "
+                         f"from {cheapest_flight.origin_airport} to {cheapest_flight.destination_airport}, "
+                         f"on {cheapest_flight.out_date} until {cheapest_flight.return_date}."
+        )
 
-            # SMS not working? Try whatsapp instead.
-            notification_manager.send_whatsapp(
-                message_body=f"Low price alert! Only £{cheapest_flight.price} to fly "
-                             f"from {cheapest_flight.origin_airport} to {cheapest_flight.destination_airport}, "
-                             f"on {cheapest_flight.out_date} until {cheapest_flight.return_date}."
-            )
-    except TypeError:
-        if cheapest_flight.price == "N/A":
-            break
+        # SMS not working? Try whatsapp instead.
+        # notification_manager.send_whatsapp(
+        #     message_body=f"Low price alert! Only £{cheapest_flight.price} to fly "
+        #                  f"from {cheapest_flight.origin_airport} to {cheapest_flight.destination_airport}, "
+        #                  f"on {cheapest_flight.out_date} until {cheapest_flight.return_date}."
+        # )
